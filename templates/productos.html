@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Inventario - Metaverso</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-slate-100 min-h-screen flex text-slate-800 font-sans">
+
+    <aside class="w-72 bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-white hidden md:flex flex-col shadow-2xl z-10">
+        <div class="p-8 flex items-center gap-4 border-b border-slate-700/50">
+            <div class="bg-blue-600 p-2 rounded-lg shadow-lg shadow-blue-500/50">
+                <i class="fas fa-cube text-xl"></i>
+            </div>
+            <div>
+                <h1 class="font-bold text-xl tracking-wide">METAVERSO</h1>
+                <p class="text-xs text-slate-400">ERP System v4.0</p>
+            </div>
+        </div>
+        
+        <nav class="flex-1 p-6 space-y-3 overflow-y-auto text-sm">
+            <p class="text-xs text-slate-500 font-bold uppercase mb-2">Principal</p>
+            <a href="/dashboard" class="flex items-center gap-4 px-6 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition-all group">
+                <i class="fas fa-chart-pie w-5"></i> <span class="font-medium">Dashboard</span>
+            </a>
+
+            <p class="text-xs text-slate-500 font-bold uppercase mt-6 mb-2">Módulos</p>
+            <a href="/caracterizacion" class="flex items-center gap-4 px-6 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition-all group">
+                <i class="fas fa-hard-hat w-5 group-hover:text-teal-400 transition"></i> <span class="font-medium">Ingeniería</span>
+            </a>
+
+            <a href="/clientes" class="flex items-center gap-4 px-6 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition-all group">
+                <i class="fas fa-users w-5 group-hover:text-blue-400 transition"></i> <span class="font-medium">Clientes</span>
+            </a>
+
+            <a href="/proveedores" class="flex items-center gap-4 px-6 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition-all group">
+                <i class="fas fa-truck w-5 group-hover:text-purple-400 transition"></i> <span class="font-medium">Proveedores</span>
+            </a>
+
+            <a href="/productos" class="flex items-center gap-4 px-6 py-3 bg-white/10 rounded-xl text-white border-l-4 border-orange-500 backdrop-blur-sm shadow-inner transition-all">
+                <i class="fas fa-boxes w-5"></i> <span class="font-medium">Inventario</span>
+            </a>
+            
+            <a href="/cotizaciones" class="flex items-center gap-4 px-6 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition-all group">
+                <i class="fas fa-file-invoice-dollar w-5 group-hover:text-pink-400 transition"></i> <span class="font-medium">Cotizaciones</span>
+            </a>
+
+            <p class="text-xs text-slate-500 font-bold uppercase mt-6 mb-2">Sistema</p>
+            <a href="/logout" class="flex items-center gap-4 px-6 py-3 text-red-400 hover:bg-red-900/20 hover:text-red-300 rounded-xl transition-all group">
+                <i class="fas fa-sign-out-alt w-5"></i> <span class="font-medium">Cerrar Sesión</span>
+            </a>
+        </nav>
+
+        <div class="p-6 bg-slate-900/50 border-t border-slate-700/50">
+            <div class="flex items-center gap-3">
+                {% if rol == 'admin' %}
+                    <div class="h-10 w-10 bg-gradient-to-tr from-blue-500 to-cyan-500 rounded-full flex items-center justify-center font-bold shadow-lg ring-2 ring-blue-500/30 text-white">A</div>
+                    <div><p class="text-sm font-bold text-white">Administrador</p><p class="text-[10px] text-blue-400 uppercase tracking-wider">Acceso Total</p></div>
+                {% else %}
+                    <div class="h-10 w-10 bg-gradient-to-tr from-orange-500 to-pink-500 rounded-full flex items-center justify-center font-bold shadow-lg ring-2 ring-orange-500/30 text-white">S</div>
+                    <div><p class="text-sm font-bold text-white">Asistente</p><p class="text-[10px] text-orange-400 uppercase tracking-wider">Acceso Limitado</p></div>
+                {% endif %}
+            </div>
+        </div>
+    </aside>
+
+    <main class="flex-1 overflow-y-auto">
+        <header class="bg-white p-6 shadow-sm flex justify-between items-center sticky top-0 z-20">
+            <div>
+                <h2 class="text-2xl font-bold text-slate-800">Inventario de Productos</h2>
+                <p class="text-slate-500 text-sm">Gestión de Stock y Servicios</p>
+            </div>
+            
+            {% if rol == 'admin' %}
+                <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-bold border border-blue-200">ADMINISTRADOR</span>
+            {% else %}
+                <span class="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-xs font-bold border border-orange-200">ASISTENTE</span>
+            {% endif %}
+        </header>
+
+        <div class="p-8 max-w-7xl mx-auto space-y-8">
+            
+            <div class="bg-white p-6 rounded-2xl shadow-md border-l-8 border-orange-500">
+                <h3 class="text-lg font-bold mb-6 text-slate-800 flex items-center gap-2">
+                    <div class="bg-orange-100 p-2 rounded-lg text-orange-600"><i class="fas fa-box-open"></i></div>
+                    Nuevo Item de Catálogo
+                </h3>
+                
+                <form action="/guardar-producto" method="post">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-5">
+                        
+                        <div class="lg:col-span-1">
+                            <label class="text-xs font-bold text-slate-500 uppercase ml-1">Código / SKU</label>
+                            <input name="codigo" type="text" placeholder="Ej: CAM-001" class="w-full mt-1 p-2 bg-slate-50 border rounded-lg focus:border-orange-500 focus:ring-1 focus:ring-orange-500 outline-none transition uppercase-input font-mono" oninput="this.value = this.value.toUpperCase()" required>
+                        </div>
+
+                        <div class="lg:col-span-3">
+                            <label class="text-xs font-bold text-slate-500 uppercase ml-1">Descripción del Producto / Servicio</label>
+                            <input name="nombre" type="text" placeholder="Ej: CÁMARA IP HIKVISION 4MP DOME" class="w-full mt-1 p-2 bg-slate-50 border rounded-lg focus:border-orange-500 focus:ring-1 focus:ring-orange-500 outline-none transition uppercase-input" oninput="this.value = this.value.toUpperCase()" required>
+                        </div>
+
+                        <div>
+                            <label class="text-xs font-bold text-slate-500 uppercase ml-1">Tipo de Item</label>
+                            <div class="relative mt-1">
+                                <select name="tipo" class="w-full p-2 bg-slate-50 border rounded-lg focus:border-orange-500 outline-none appearance-none">
+                                    <option value="Producto">Producto Físico</option>
+                                    <option value="Servicio">Servicio / Mano de Obra</option>
+                                    <option value="Licencia">Licencia de Software</option>
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500"><i class="fas fa-chevron-down text-xs"></i></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="text-xs font-bold text-slate-500 uppercase ml-1">Proveedor / Fabricante</label>
+                            <div class="relative mt-1">
+                                <select name="proveedor" class="w-full p-2 bg-slate-50 border rounded-lg focus:border-orange-500 outline-none appearance-none">
+                                    <option value="General">General / Varios</option>
+                                    {% for p in lista_proveedores %}
+                                        <option value="{{ p.nombre }}">{{ p.nombre }}</option>
+                                    {% endfor %}
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500"><i class="fas fa-chevron-down text-xs"></i></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="text-xs font-bold text-red-400 uppercase ml-1 flex items-center gap-1"><i class="fas fa-lock text-[10px]"></i> Costo Compra (Unit)</label>
+                            {% if rol == 'admin' %}
+                                <input name="costo" type="number" placeholder="0" class="w-full mt-1 p-2 bg-red-50 border border-red-200 rounded-lg focus:border-red-400 text-slate-700 font-bold outline-none transition" required>
+                            {% else %}
+                                <input name="costo" type="number" value="0" readonly class="w-full mt-1 p-2 bg-slate-100 border border-slate-200 rounded-lg text-slate-400 cursor-not-allowed">
+                                <p class="text-[9px] text-slate-400 mt-1">Solo Admin puede registrar costos.</p>
+                            {% endif %}
+                        </div>
+
+                        <div>
+                            <label class="text-xs font-bold text-green-600 uppercase ml-1">Precio Venta (Público)</label>
+                            <input name="precio" type="number" placeholder="0" class="w-full mt-1 p-2 bg-green-50 border border-green-200 rounded-lg focus:border-green-400 text-slate-700 font-bold outline-none transition" required>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="w-full bg-orange-500 text-white font-bold py-3 rounded-xl hover:bg-orange-600 transition shadow-lg flex justify-center items-center gap-2 transform hover:scale-[1.01]">
+                        <i class="fas fa-save"></i> Guardar en Catálogo
+                    </button>
+                </form>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="p-5 bg-slate-50 border-b flex justify-between items-center">
+                    <h3 class="font-bold text-slate-700">Stock Actual</h3>
+                    <span class="bg-orange-100 text-orange-800 text-xs font-bold px-3 py-1 rounded-full">{{ productos|length }} Items</span>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm text-slate-600">
+                        <thead class="bg-slate-100 text-slate-700 uppercase font-bold text-xs border-b">
+                            <tr>
+                                <th class="p-4 pl-6">Código</th>
+                                <th class="p-4">Producto</th>
+                                <th class="p-4 text-right bg-red-50/50 text-red-500">Costo (Privado)</th>
+                                <th class="p-4 text-right bg-green-50/50 text-green-600">Venta (Público)</th>
+                                <th class="p-4 text-center">Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            {% for p in productos %}
+                            <tr class="hover:bg-orange-50 transition group">
+                                <td class="p-4 pl-6 font-mono text-xs font-bold text-slate-500">{{ p.codigo }}</td>
+                                <td class="p-4">
+                                    <div class="font-bold text-slate-800">{{ p.nombre }}</div>
+                                    <div class="flex items-center gap-2 mt-1">
+                                        <span class="text-[10px] bg-slate-100 px-2 rounded text-slate-500 border border-slate-200">{{ p.tipo }}</span>
+                                        <span class="text-[10px] text-slate-400"><i class="fas fa-truck mr-1"></i>{{ p.proveedor }}</span>
+                                    </div>
+                                </td>
+                                
+                                <td class="p-4 text-right font-mono bg-red-50/30">
+                                    {% if rol == 'admin' %}
+                                        <span class="text-red-500 font-bold">${{ p.costo }}</span>
+                                    {% else %}
+                                        <span class="text-slate-300 tracking-widest">****</span>
+                                    {% endif %}
+                                </td>
+
+                                <td class="p-4 text-right font-mono bg-green-50/30">
+                                    <span class="text-green-600 font-bold text-base">${{ p.precio }}</span>
+                                </td>
+
+                                <td class="p-4 text-center">
+                                    {% if rol == 'admin' %}
+                                        <a href="/eliminar-producto/{{ p.id }}" onclick="return confirm('¿⚠️ Borrar {{ p.nombre }} del catálogo?')" 
+                                           class="inline-flex items-center justify-center h-8 w-8 bg-white border border-slate-200 rounded-lg text-slate-400 hover:text-red-500 hover:border-red-200 hover:bg-red-50 transition shadow-sm" title="Eliminar Item">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>
+                                    {% else %}
+                                        <span class="text-slate-300 cursor-not-allowed" title="Solo Admin"><i class="fas fa-lock"></i></span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="5" class="p-12 text-center">
+                                    <div class="flex flex-col items-center justify-center text-slate-400">
+                                        <div class="bg-slate-100 p-4 rounded-full mb-3"><i class="fas fa-barcode text-3xl opacity-50"></i></div>
+                                        <p class="font-medium">El inventario está vacío.</p>
+                                        <p class="text-xs mt-1">Agrega productos o servicios para empezar a cotizar.</p>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</body>
+</html>

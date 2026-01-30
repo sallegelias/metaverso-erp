@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Levantamiento Técnico - Metaverso</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-slate-100 min-h-screen flex text-slate-800 font-sans">
+
+    <aside class="w-72 bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-white hidden md:flex flex-col shadow-2xl z-10">
+        <div class="p-8 flex items-center gap-4 border-b border-slate-700/50">
+            <div class="bg-blue-600 p-2 rounded-lg shadow-lg shadow-blue-500/50">
+                <i class="fas fa-cube text-xl"></i>
+            </div>
+            <div>
+                <h1 class="font-bold text-xl tracking-wide">METAVERSO</h1>
+                <p class="text-xs text-slate-400">ERP System v4.0</p>
+            </div>
+        </div>
+        
+        <nav class="flex-1 p-6 space-y-3 overflow-y-auto text-sm">
+            <p class="text-xs text-slate-500 font-bold uppercase mb-2">Principal</p>
+            <a href="/dashboard" class="flex items-center gap-4 px-6 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition-all group">
+                <i class="fas fa-chart-pie w-5"></i> <span class="font-medium">Dashboard</span>
+            </a>
+
+            <p class="text-xs text-slate-500 font-bold uppercase mt-6 mb-2">Módulos</p>
+            
+            <a href="/caracterizacion" class="flex items-center gap-4 px-6 py-3 bg-white/10 rounded-xl text-white border-l-4 border-teal-500 backdrop-blur-sm shadow-inner transition-all">
+                <i class="fas fa-hard-hat w-5"></i> <span class="font-medium">Ingeniería</span>
+            </a>
+
+            <a href="/clientes" class="flex items-center gap-4 px-6 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition-all group">
+                <i class="fas fa-users w-5 group-hover:text-blue-400 transition"></i> <span class="font-medium">Clientes</span>
+            </a>
+
+            <a href="/proveedores" class="flex items-center gap-4 px-6 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition-all group">
+                <i class="fas fa-truck w-5 group-hover:text-purple-400 transition"></i> <span class="font-medium">Proveedores</span>
+            </a>
+
+            <a href="/productos" class="flex items-center gap-4 px-6 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition-all group">
+                <i class="fas fa-boxes w-5 group-hover:text-orange-400 transition"></i> <span class="font-medium">Inventario</span>
+            </a>
+            
+            <a href="/cotizaciones" class="flex items-center gap-4 px-6 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition-all group">
+                <i class="fas fa-file-invoice-dollar w-5 group-hover:text-pink-400 transition"></i> <span class="font-medium">Cotizaciones</span>
+            </a>
+
+            <p class="text-xs text-slate-500 font-bold uppercase mt-6 mb-2">Sistema</p>
+            <a href="/logout" class="flex items-center gap-4 px-6 py-3 text-red-400 hover:bg-red-900/20 hover:text-red-300 rounded-xl transition-all group">
+                <i class="fas fa-sign-out-alt w-5"></i> <span class="font-medium">Cerrar Sesión</span>
+            </a>
+        </nav>
+
+        <div class="p-6 bg-slate-900/50 border-t border-slate-700/50">
+            <div class="flex items-center gap-3">
+                {% if rol == 'admin' %}
+                    <div class="h-10 w-10 bg-gradient-to-tr from-blue-500 to-cyan-500 rounded-full flex items-center justify-center font-bold shadow-lg ring-2 ring-blue-500/30 text-white">A</div>
+                    <div><p class="text-sm font-bold text-white">Administrador</p><p class="text-[10px] text-blue-400 uppercase tracking-wider">Acceso Total</p></div>
+                {% else %}
+                    <div class="h-10 w-10 bg-gradient-to-tr from-orange-500 to-pink-500 rounded-full flex items-center justify-center font-bold shadow-lg ring-2 ring-orange-500/30 text-white">S</div>
+                    <div><p class="text-sm font-bold text-white">Asistente</p><p class="text-[10px] text-orange-400 uppercase tracking-wider">Acceso Limitado</p></div>
+                {% endif %}
+            </div>
+        </div>
+    </aside>
+
+    <main class="flex-1 overflow-y-auto">
+        <header class="bg-white p-6 shadow-sm flex justify-between items-center sticky top-0 z-20">
+            <div>
+                <h2 class="text-2xl font-bold text-slate-800">Ingeniería de Campo</h2>
+                <p class="text-slate-500 text-sm">Cálculos Técnicos y Levantamientos</p>
+            </div>
+            
+            {% if rol == 'admin' %}
+                <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-bold border border-blue-200">ADMINISTRADOR</span>
+            {% else %}
+                <span class="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-xs font-bold border border-orange-200">ASISTENTE</span>
+            {% endif %}
+        </header>
+
+        <div class="p-8 max-w-7xl mx-auto space-y-8">
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <div class="lg:col-span-1">
+                    <div class="bg-white p-6 rounded-2xl shadow-lg border-t-4 border-teal-500 sticky top-24">
+                        <h3 class="font-bold text-slate-700 mb-6 flex items-center gap-2">
+                            <div class="bg-teal-100 p-2 rounded-lg text-teal-600"><i class="fas fa-hard-hat"></i></div>
+                            Nueva Ficha Técnica
+                        </h3>
+                        
+                        <form action="/guardar-levantamiento" method="post" id="levForm" onsubmit="return prepararEnvio()">
+                            <input type="hidden" name="amenidades_json" id="amenidades_json">
+                            <input type="hidden" name="calculo_utp" id="calculo_utp_input">
+
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="text-xs font-bold text-slate-500 uppercase ml-1">Cliente Vinculado</label>
+                                    <div class="relative mt-1">
+                                        <select name="cliente" class="w-full p-2 bg-slate-50 border rounded-lg focus:border-teal-500 outline-none appearance-none" required>
+                                            <option value="">Seleccione Cliente...</option>
+                                            {% for c in lista_clientes %}
+                                                <option value="{{ c.nombre }}">{{ c.nombre }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500"><i class="fas fa-chevron-down text-xs"></i></div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="text-xs font-bold text-slate-500 uppercase ml-1">Nombre Proyecto / Sitio</label>
+                                    <input name="nombre_proyecto" placeholder="Ej: TORRES DEL PARQUE" class="w-full mt-1 p-2 bg-slate-50 border rounded-lg focus:border-teal-500 outline-none uppercase-input" required oninput="this.value = this.value.toUpperCase()">
+                                </div>
+
+                                <div class="bg-blue-50/50 p-4 rounded-xl border border-blue-100">
+                                    <div class="text-xs font-bold text-blue-700 mb-3 flex justify-between items-center">
+                                        <span><i class="fas fa-calculator mr-1"></i> Estructura Vertical</span>
+                                    </div>
+                                    <div class="grid grid-cols-3 gap-2 mb-3">
+                                        <div><label class="text-[9px] font-bold text-slate-400">TORRES</label><input name="torres" id="torres" type="number" placeholder="0" class="w-full p-1 border rounded text-center text-sm font-bold text-slate-700" oninput="calcularTodo()"></div>
+                                        <div><label class="text-[9px] font-bold text-slate-400">PISOS</label><input name="pisos" id="pisos" type="number" placeholder="0" class="w-full p-1 border rounded text-center text-sm font-bold text-slate-700" oninput="calcularTodo()"></div>
+                                        <div><label class="text-[9px] font-bold text-slate-400">APT/PISO</label><input name="aptos_piso" id="aptos_piso" type="number" placeholder="0" class="w-full p-1 border rounded text-center text-sm font-bold text-slate-700" oninput="calcularTodo()"></div>
+                                    </div>
+                                    <div class="flex justify-between items-center bg-white p-2 rounded-lg border border-blue-100 shadow-sm">
+                                        <span class="text-[10px] font-bold text-slate-500">Estimado Cable UTP:</span>
+                                        <span class="font-mono font-bold text-blue-600"><span id="res_utp">0</span> m</span>
+                                    </div>
+                                </div>
+
+                                <div class="bg-orange-50/50 p-4 rounded-xl border border-orange-100">
+                                    <div class="text-xs font-bold text-orange-700 mb-3 flex justify-between items-center">
+                                        <span><i class="fas fa-ruler-combined mr-1"></i> Dimensiones Sitio</span>
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-3 mb-3">
+                                        <div><label class="text-[9px] font-bold text-slate-400">LARGO (m)</label><input name="largo_m" id="largo_m" type="number" placeholder="0.0" class="w-full p-1 border rounded text-center text-sm font-bold text-slate-700" oninput="calcularTodo()"></div>
+                                        <div><label class="text-[9px] font-bold text-slate-400">ANCHO (m)</label><input name="ancho_m" id="ancho_m" type="number" placeholder="0.0" class="w-full p-1 border rounded text-center text-sm font-bold text-slate-700" oninput="calcularTodo()"></div>
+                                    </div>
+                                    <div class="flex justify-between items-center bg-white p-2 rounded-lg border border-orange-100 shadow-sm">
+                                        <span class="text-[10px] font-bold text-slate-500">Perímetro Total:</span>
+                                        <span class="font-mono font-bold text-orange-600"><span id="res_perimetro">0</span> m</span>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between items-center mb-2">
+                                        <label class="text-xs font-bold text-slate-500 uppercase">Zonas Comunes</label>
+                                        <button type="button" onclick="agregarAmenidad()" class="text-[10px] bg-green-100 text-green-700 px-2 py-1 rounded hover:bg-green-200 transition font-bold"><i class="fas fa-plus mr-1"></i> Agregar</button>
+                                    </div>
+                                    <div class="max-h-32 overflow-y-auto border border-slate-200 rounded-lg bg-slate-50 p-2 custom-scrollbar">
+                                        <table class="w-full text-xs">
+                                            <tbody id="tablaAmenidades" class="space-y-1"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="text-xs font-bold text-slate-500 uppercase ml-1">Notas Técnicas</label>
+                                    <textarea name="notas" rows="2" class="w-full mt-1 p-2 bg-slate-50 border rounded-lg focus:border-teal-500 outline-none text-xs" placeholder="Detalles de ductería, altura de techos, tipo de pared..."></textarea>
+                                </div>
+
+                                <button type="submit" class="w-full bg-teal-600 text-white font-bold py-3 rounded-xl hover:bg-teal-700 transition shadow-lg flex justify-center items-center gap-2 transform hover:scale-[1.01]">
+                                    <i class="fas fa-save"></i> Guardar Ficha Técnica
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-2">
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden h-full">
+                        <div class="p-5 bg-slate-50 border-b flex justify-between items-center">
+                            <h3 class="font-bold text-slate-700">Levantamientos Recientes</h3>
+                            <span class="bg-teal-100 text-teal-800 text-xs font-bold px-3 py-1 rounded-full">{{ levantamientos|length }} Fichas</span>
+                        </div>
+
+                        <div class="p-0 overflow-y-auto max-h-[800px]">
+                            {% if levantamientos %}
+                                <div class="grid grid-cols-1 gap-0 divide-y divide-slate-100">
+                                    {% for lev in levantamientos %}
+                                    <div class="p-5 hover:bg-slate-50 transition group relative">
+                                        
+                                        <div class="flex justify-between items-start mb-3">
+                                            <div class="flex items-center gap-3">
+                                                <div class="h-10 w-10 rounded-lg bg-teal-100 text-teal-600 flex items-center justify-center text-lg">
+                                                    <i class="fas fa-project-diagram"></i>
+                                                </div>
+                                                <div>
+                                                    <h4 class="font-bold text-slate-800 text-base">{{ lev.nombre_proyecto }}</h4>
+                                                    <p class="text-xs text-slate-500 font-bold uppercase"><i class="fas fa-building mr-1"></i> {{ lev.cliente }}</p>
+                                                </div>
+                                            </div>
+                                            
+                                            {% if rol == 'admin' %}
+                                            <a href="/eliminar-levantamiento/{{ lev.id }}" onclick="return confirm('¿Borrar esta ficha técnica?')" class="text-slate-300 hover:text-red-500 transition p-2 opacity-0 group-hover:opacity-100">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </a>
+                                            {% endif %}
+                                        </div>
+
+                                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+                                            <div class="bg-blue-50 p-2 rounded border border-blue-100 text-center">
+                                                <div class="text-[9px] text-blue-400 font-bold uppercase">Torres</div>
+                                                <div class="text-sm font-bold text-slate-700">{{ lev.torres }}</div>
+                                            </div>
+                                            <div class="bg-blue-50 p-2 rounded border border-blue-100 text-center">
+                                                <div class="text-[9px] text-blue-400 font-bold uppercase">Aptos Total</div>
+                                                <div class="text-sm font-bold text-slate-700">{{ lev.total_unidades }}</div>
+                                            </div>
+                                            <div class="bg-orange-50 p-2 rounded border border-orange-100 text-center">
+                                                <div class="text-[9px] text-orange-400 font-bold uppercase">Perímetro</div>
+                                                <div class="text-sm font-bold text-slate-700">{{ (2 * (lev.largo_m + lev.ancho_m)) | round(1) }}m</div>
+                                            </div>
+                                            <div class="bg-teal-50 p-2 rounded border border-teal-100 text-center">
+                                                <div class="text-[9px] text-teal-600 font-bold uppercase">UTP Estimado</div>
+                                                <div class="text-sm font-bold text-teal-700">{{ lev.calculo_utp }}m</div>
+                                            </div>
+                                        </div>
+
+                                        {% if lev.lista_amenidades %}
+                                        <div class="flex flex-wrap gap-2 mt-2">
+                                            {% for am in lev.lista_amenidades %}
+                                            <span class="inline-flex items-center px-2 py-1 rounded text-[10px] font-medium bg-slate-100 text-slate-600 border border-slate-200">
+                                                {{ am.nombre }} <span class="ml-1 bg-white px-1 rounded text-slate-400">{{ am.cantidad }}</span>
+                                            </span>
+                                            {% endfor %}
+                                        </div>
+                                        {% endif %}
+
+                                        {% if lev.notas %}
+                                        <div class="mt-3 text-xs text-slate-400 italic bg-slate-50 p-2 rounded border border-slate-100">
+                                            <i class="fas fa-sticky-note mr-1"></i> "{{ lev.notas }}"
+                                        </div>
+                                        {% endif %}
+                                        
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <div class="text-center py-20 text-slate-400">
+                                    <i class="fas fa-clipboard-check text-5xl mb-4 opacity-20"></i>
+                                    <p class="font-medium">No hay levantamientos registrados.</p>
+                                    <p class="text-xs mt-1">Utiliza el formulario para crear la primera ficha técnica.</p>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function calcularTodo() {
+            const torres = parseInt(document.getElementById('torres').value) || 0;
+            const pisos = parseInt(document.getElementById('pisos').value) || 0;
+            const largo = parseFloat(document.getElementById('largo_m').value) || 0;
+            const ancho = parseFloat(document.getElementById('ancho_m').value) || 0;
+
+            // 1. Cálculo Estimado de UTP (Fórmula empírica para verticales)
+            // Se asume 3 metros por piso + 1m de holgura por piso, sumatoria ascendente.
+            let metrosTotales = 0;
+            if (pisos > 0) {
+                // Cálculo simple: Promedio de bajante por piso x cantidad de pisos
+                // Para simplificar: (Altura promedio torre * aptos) + Holguras
+                // Fórmula usada aquí: Sumatoria simple por cada piso.
+                for (let i = 1; i <= pisos; i++) {
+                    metrosTotales += (i * 3) + 2; // 3m de altura + 2m reserva
+                }
+            }
+            // Multiplicamos por torres y aptos por piso (simplificado para vertical principal)
+            // Ajuste: Esto es un estimado de la vertical principal (Backbone)
+            const utpFinal = metrosTotales * torres; 
+            
+            document.getElementById('res_utp').innerText = utpFinal;
+            document.getElementById('calculo_utp_input').value = utpFinal;
+
+            // 2. Cálculo Perímetro
+            const perimetro = 2 * (largo + ancho);
+            document.getElementById('res_perimetro').innerText = perimetro.toFixed(2);
+        }
+
+        function agregarAmenidad() {
+            const tbody = document.getElementById('tablaAmenidades');
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td class="p-1 pr-2">
+                    <input type="text" placeholder="Ej: Piscina" class="w-full p-1.5 border rounded text-xs uppercase-input outline-none focus:border-teal-500" oninput="this.value=this.value.toUpperCase()">
+                </td>
+                <td class="p-1 w-16">
+                    <input type="number" value="1" min="1" class="w-full p-1.5 border rounded text-xs text-center outline-none focus:border-teal-500">
+                </td>
+                <td class="p-1 w-8 text-center">
+                    <button type="button" onclick="this.closest('tr').remove()" class="text-slate-300 hover:text-red-500 transition"><i class="fas fa-times"></i></button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        }
+
+        function prepararEnvio() {
+            const filas = document.getElementById('tablaAmenidades').querySelectorAll('tr');
+            let datos = [];
+            filas.forEach(fila => {
+                const inputs = fila.querySelectorAll('input');
+                if(inputs[0].value) {
+                    datos.push({ 
+                        nombre: inputs[0].value, 
+                        cantidad: inputs[1].value 
+                    });
+                }
+            });
+            document.getElementById('amenidades_json').value = JSON.stringify(datos);
+            return true;
+        }
+        
+        // Iniciar con una fila vacía para invitar a escribir
+        document.addEventListener("DOMContentLoaded", () => agregarAmenidad());
+    </script>
+</body>
+</html>

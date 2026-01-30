@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Informes Gerenciales - Metaverso</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-slate-100 min-h-screen flex text-slate-800 font-sans">
+
+    <aside class="w-20 bg-slate-900 text-white hidden md:flex flex-col items-center py-6 shadow-2xl z-10">
+        <a href="/dashboard" class="p-3 bg-slate-800 rounded-xl hover:bg-blue-600 transition mb-6" title="Volver al Dashboard">
+            <i class="fas fa-arrow-left text-xl"></i>
+        </a>
+        
+        <div class="flex-1 flex flex-col gap-4 w-full px-2">
+            <div class="w-full h-px bg-slate-700"></div>
+            <div class="text-center text-[10px] text-slate-500 uppercase font-bold">Menú</div>
+            <a href="/clientes" class="p-3 rounded-xl hover:bg-slate-800 text-slate-400 hover:text-white transition text-center"><i class="fas fa-users"></i></a>
+            <a href="/cotizaciones" class="p-3 rounded-xl hover:bg-slate-800 text-slate-400 hover:text-white transition text-center"><i class="fas fa-file-invoice-dollar"></i></a>
+        </div>
+
+        <a href="/logout" class="p-3 text-red-400 hover:text-red-200 hover:bg-red-900/20 rounded-xl transition" title="Salir">
+            <i class="fas fa-sign-out-alt text-xl"></i>
+        </a>
+    </aside>
+
+    <main class="flex-1 overflow-y-auto">
+        <header class="bg-white p-8 shadow-sm flex justify-between items-end mb-8">
+            <div>
+                <h2 class="text-3xl font-extrabold text-slate-800 tracking-tight">Informe Financiero</h2>
+                <p class="text-slate-500 mt-1">Inteligencia de Negocios (BI) & Analytics</p>
+            </div>
+            <div class="text-right">
+                <span class="bg-purple-100 text-purple-700 px-4 py-2 rounded-lg font-bold text-sm border border-purple-200 flex items-center gap-2">
+                    <i class="fas fa-user-shield"></i> VISTA DE ADMINISTRADOR
+                </span>
+            </div>
+        </header>
+
+        <div class="px-8 pb-8 max-w-7xl mx-auto space-y-8">
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-2xl shadow-lg border-l-8 border-blue-600 flex items-center justify-between transform hover:scale-[1.01] transition duration-300">
+                    <div>
+                        <p class="text-xs text-blue-600 font-bold uppercase tracking-wider mb-1">Metaverso Tech SAS (IVA)</p>
+                        <h3 class="text-4xl font-black text-slate-800" id="val_sas">...</h3>
+                        <p class="text-xs text-slate-400 mt-2">Facturación Régimen Común</p>
+                    </div>
+                    <div class="h-16 w-16 bg-blue-50 rounded-full flex items-center justify-center text-blue-600 text-3xl shadow-inner">
+                        <i class="fas fa-building"></i>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-lg border-l-8 border-green-600 flex items-center justify-between transform hover:scale-[1.01] transition duration-300">
+                    <div>
+                        <p class="text-xs text-green-600 font-bold uppercase tracking-wider mb-1">Régimen Simplificado</p>
+                        <h3 class="text-4xl font-black text-slate-800" id="val_simpl">...</h3>
+                        <p class="text-xs text-slate-400 mt-2">Facturación Persona Natural</p>
+                    </div>
+                    <div class="h-16 w-16 bg-green-50 rounded-full flex items-center justify-center text-green-600 text-3xl shadow-inner">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 lg:col-span-1 flex flex-col">
+                    <h4 class="font-bold text-slate-700 mb-6 flex items-center gap-2">
+                        <i class="fas fa-chart-pie text-slate-400"></i> Distribución de Ingresos
+                    </h4>
+                    <div class="flex-1 flex items-center justify-center relative">
+                        <canvas id="graficaVentas"></canvas>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 lg:col-span-2">
+                    <h4 class="font-bold text-slate-700 mb-6 flex items-center gap-2">
+                        <i class="fas fa-trophy text-yellow-500"></i> Mejores Clientes (Top 5)
+                    </h4>
+                    
+                    <div class="overflow-hidden rounded-xl border border-slate-100">
+                        <table class="w-full text-left text-sm">
+                            <thead class="bg-slate-50 text-slate-500 font-bold text-xs uppercase">
+                                <tr>
+                                    <th class="p-4">Cliente</th>
+                                    <th class="p-4 text-center">Cotizaciones</th>
+                                    <th class="p-4 text-right">Volumen Total</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100">
+                                {% for c in top_clientes %}
+                                <tr class="hover:bg-slate-50 transition">
+                                    <td class="p-4 font-bold text-slate-700 flex items-center gap-3">
+                                        <span class="bg-slate-200 text-slate-600 h-6 w-6 flex items-center justify-center rounded-full text-[10px] font-bold">{{ loop.index }}</span>
+                                        {{ c.cliente }}
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs font-bold">{{ c.compras }}</span>
+                                    </td>
+                                    <td class="p-4 text-right font-mono font-bold text-green-600 text-base">
+                                        ${{ "{:,.0f}".format(c.volumen) }}
+                                    </td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="3" class="p-8 text-center text-slate-400 italic">No hay datos de ventas suficientes aún.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Formatear números para las tarjetas (JS)
+        const ventasSas = {{ ventas_sas }};
+        const ventasSimpl = {{ ventas_simpl }};
+
+        document.getElementById('val_sas').innerText = '$' + ventasSas.toLocaleString('en-US');
+        document.getElementById('val_simpl').innerText = '$' + ventasSimpl.toLocaleString('en-US');
+
+        // Gráfica Chart.js
+        const ctx = document.getElementById('graficaVentas').getContext('2d');
+        
+        // Si ambos son 0, mostrar gráfica vacía gris
+        let dataValues = [ventasSas, ventasSimpl];
+        let bgColors = ['#2563eb', '#16a34a']; // Azul, Verde
+        let labels = ['SAS', 'Simplificado'];
+
+        if (ventasSas === 0 && ventasSimpl === 0) {
+            dataValues = [1]; 
+            bgColors = ['#e2e8f0']; // Gris
+            labels = ['Sin Datos'];
+        }
+
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: dataValues,
+                    backgroundColor: bgColors,
+                    borderWidth: 0,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom', labels: { usePointStyle: true, font: { size: 11 } } }
+                },
+                cutout: '70%' // Grosor de la dona
+            }
+        });
+    </script>
+</body>
+</html>

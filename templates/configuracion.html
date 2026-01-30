@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Configuración - Metaverso</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-slate-100 min-h-screen flex text-slate-800 font-sans">
+
+    <aside class="w-24 bg-slate-900 text-white flex flex-col items-center py-6 gap-6 shadow-2xl">
+        <a href="/dashboard" class="p-3 bg-slate-800 rounded-xl hover:bg-blue-600 transition shadow-lg text-center" title="Volver al Dashboard">
+            <i class="fas fa-arrow-left text-xl"></i>
+            <span class="block text-[10px] mt-1 font-bold">Volver</span>
+        </a>
+    </aside>
+
+    <main class="flex-1 p-8 overflow-y-auto">
+        <header class="mb-8 flex justify-between items-center">
+            <div>
+                <h2 class="text-3xl font-bold text-slate-800">Configuración Global</h2>
+                <p class="text-slate-500">Administración del sistema y datos corporativos.</p>
+            </div>
+            <div class="bg-yellow-100 text-yellow-800 px-4 py-2 rounded-lg text-xs font-bold border border-yellow-200">
+                <i class="fas fa-user-shield mr-1"></i> ZONA ADMIN
+            </div>
+        </header>
+
+        <form action="/guardar-configuracion" method="post" class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+            
+            <div class="bg-white rounded-2xl shadow-md overflow-hidden border border-slate-200">
+                <div class="bg-blue-600 p-4 flex items-center gap-3 text-white">
+                    <i class="fas fa-building text-xl"></i>
+                    <div><h3 class="font-bold">Empresa Principal (A)</h3><p class="text-[10px] opacity-80">Régimen Común</p></div>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div><label class="text-xs font-bold text-slate-400">Razón Social</label><input name="nombre_a" value="{{ empresa_a.nombre }}" class="w-full p-2 border rounded font-bold"></div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div><label class="text-xs font-bold text-slate-400">NIT</label><input name="nit_a" value="{{ empresa_a.nit }}" class="w-full p-2 border rounded"></div>
+                        <div><label class="text-xs font-bold text-slate-400">Teléfono</label><input name="tel_a" value="{{ empresa_a.telefono }}" class="w-full p-2 border rounded"></div>
+                    </div>
+                    <div><label class="text-xs font-bold text-slate-400">Dirección</label><input name="dir_a" value="{{ empresa_a.direccion }}" class="w-full p-2 border rounded"></div>
+                    <div><label class="text-xs font-bold text-slate-400">Email</label><input name="email_a" value="{{ empresa_a.email }}" class="w-full p-2 border rounded"></div>
+                    <div><label class="text-xs font-bold text-slate-400">Lema</label><input name="lema_a" value="{{ empresa_a.lema }}" class="w-full p-2 border rounded italic"></div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-md overflow-hidden border border-slate-200">
+                <div class="bg-green-600 p-4 flex items-center gap-3 text-white">
+                    <i class="fas fa-user-tie text-xl"></i>
+                    <div><h3 class="font-bold">Empresa Secundaria (B)</h3><p class="text-[10px] opacity-80">Régimen Simplificado</p></div>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div><label class="text-xs font-bold text-slate-400">Nombre Comercial</label><input name="nombre_b" value="{{ empresa_b.nombre }}" class="w-full p-2 border rounded font-bold"></div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div><label class="text-xs font-bold text-slate-400">NIT/CC</label><input name="nit_b" value="{{ empresa_b.nit }}" class="w-full p-2 border rounded"></div>
+                        <div><label class="text-xs font-bold text-slate-400">Teléfono</label><input name="tel_b" value="{{ empresa_b.telefono }}" class="w-full p-2 border rounded"></div>
+                    </div>
+                    <div><label class="text-xs font-bold text-slate-400">Dirección</label><input name="dir_b" value="{{ empresa_b.direccion }}" class="w-full p-2 border rounded"></div>
+                    <div><label class="text-xs font-bold text-slate-400">Email</label><input name="email_b" value="{{ empresa_b.email }}" class="w-full p-2 border rounded"></div>
+                    <div><label class="text-xs font-bold text-slate-400">Lema</label><input name="lema_b" value="{{ empresa_b.lema }}" class="w-full p-2 border rounded italic"></div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-2">
+                <button type="submit" class="w-full py-3 bg-slate-800 text-white font-bold rounded-xl hover:bg-slate-700 shadow-lg">
+                    GUARDAR DATOS DE EMPRESA
+                </button>
+            </div>
+        </form>
+
+        <hr class="border-t-2 border-slate-200 my-8">
+
+        <h3 class="text-xl font-bold text-slate-700 mb-6 flex items-center gap-2">
+            <i class="fas fa-lock text-slate-400"></i> Seguridad y Accesos
+        </h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <form action="/cambiar-clave" method="post">
+                    <input type="hidden" name="usuario_objetivo" value="admin">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="bg-blue-100 p-2 rounded text-blue-600"><i class="fas fa-user-shield"></i></div>
+                        <h4 class="font-bold text-slate-700">Usuario Administrador</h4>
+                    </div>
+                    <div class="flex gap-2">
+                        <input type="text" name="nueva_clave" placeholder="Nueva Contraseña Admin" class="w-full p-2 border rounded text-sm bg-slate-50" required>
+                        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded font-bold hover:bg-blue-700 text-xs shadow">ACTUALIZAR</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <form action="/cambiar-clave" method="post">
+                    <input type="hidden" name="usuario_objetivo" value="secre">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="bg-orange-100 p-2 rounded text-orange-600"><i class="fas fa-user-tag"></i></div>
+                        <h4 class="font-bold text-slate-700">Usuario Asistente</h4>
+                    </div>
+                    <div class="flex gap-2">
+                        <input type="text" name="nueva_clave" placeholder="Nueva Contraseña Secre" class="w-full p-2 border rounded text-sm bg-slate-50" required>
+                        <button type="submit" class="bg-orange-500 text-white px-4 py-2 rounded font-bold hover:bg-orange-600 text-xs shadow">ACTUALIZAR</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </main>
+</body>
+</html>

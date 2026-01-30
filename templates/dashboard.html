@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Metaverso Tech</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        /* Estilos para la barra de desplazamiento */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="bg-slate-100 min-h-screen flex text-slate-800 font-sans overflow-hidden">
+
+    <aside class="w-72 bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-white hidden md:flex flex-col shadow-2xl z-20 relative">
+        
+        <div class="p-8 flex items-center gap-4 border-b border-slate-700/50">
+            <div class="bg-blue-600 p-2.5 rounded-xl shadow-lg shadow-blue-500/50 flex items-center justify-center">
+                <i class="fas fa-cube text-xl text-white"></i>
+            </div>
+            <div>
+                <h1 class="font-bold text-xl tracking-wide font-mono">METAVERSO</h1>
+                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">ERP System v4.0</p>
+            </div>
+        </div>
+        
+        <nav class="flex-1 p-6 space-y-2 overflow-y-auto text-sm">
+            
+            <p class="text-[10px] text-slate-500 font-bold uppercase mb-2 tracking-widest">Resumen</p>
+            
+            <a href="/dashboard" class="flex items-center gap-4 px-5 py-3.5 bg-white/10 rounded-xl text-white border-l-4 border-blue-500 backdrop-blur-sm shadow-inner transition-all duration-300">
+                <i class="fas fa-chart-pie w-5 text-center"></i> 
+                <span class="font-medium">Dashboard</span>
+            </a>
+
+            <p class="text-[10px] text-slate-500 font-bold uppercase mt-6 mb-2 tracking-widest">Operaciones</p>
+
+            <a href="/caracterizacion" class="flex items-center gap-4 px-5 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition-all group duration-200">
+                <i class="fas fa-hard-hat w-5 text-center group-hover:text-teal-400 transition"></i> 
+                <span class="font-medium group-hover:translate-x-1 transition-transform">Ingeniería</span>
+            </a>
+
+            <a href="/clientes" class="flex items-center gap-4 px-5 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition-all group duration-200">
+                <i class="fas fa-users w-5 text-center group-hover:text-blue-400 transition"></i> 
+                <span class="font-medium group-hover:translate-x-1 transition-transform">Clientes</span>
+            </a>
+
+            <a href="/proveedores" class="flex items-center gap-4 px-5 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition-all group duration-200">
+                <i class="fas fa-truck w-5 text-center group-hover:text-purple-400 transition"></i> 
+                <span class="font-medium group-hover:translate-x-1 transition-transform">Proveedores</span>
+            </a>
+
+            <a href="/productos" class="flex items-center gap-4 px-5 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition-all group duration-200">
+                <i class="fas fa-boxes w-5 text-center group-hover:text-orange-400 transition"></i> 
+                <span class="font-medium group-hover:translate-x-1 transition-transform">Inventario</span>
+            </a>
+            
+            <a href="/cotizaciones" class="flex items-center gap-4 px-5 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition-all group duration-200">
+                <i class="fas fa-file-invoice-dollar w-5 text-center group-hover:text-pink-400 transition"></i> 
+                <span class="font-medium group-hover:translate-x-1 transition-transform">Cotizaciones</span>
+            </a>
+
+            {% if rol == 'admin' %}
+            <div class="mt-8 pt-4 border-t border-slate-700/50">
+                <p class="text-[10px] text-yellow-500/80 font-bold uppercase mb-2 tracking-widest"><i class="fas fa-lock mr-1"></i> Administración</p>
+                
+                <a href="/configuracion" class="flex items-center gap-4 px-5 py-3 text-yellow-400 hover:bg-slate-800 hover:text-yellow-200 rounded-xl transition-all group duration-200 bg-yellow-400/5 hover:bg-yellow-400/10">
+                    <i class="fas fa-cog w-5 text-center group-hover:rotate-90 transition-transform duration-500"></i> 
+                    <span class="font-medium">Configuración</span>
+                </a>
+            </div>
+            {% endif %}
+            
+            <a href="/logout" class="flex items-center gap-4 px-5 py-3 text-red-400 hover:bg-red-900/20 hover:text-red-300 rounded-xl transition-all group mt-4">
+                <i class="fas fa-sign-out-alt w-5 text-center"></i> 
+                <span class="font-medium">Cerrar Sesión</span>
+            </a>
+        </nav>
+
+        <div class="p-6 bg-slate-900/80 border-t border-slate-700/50 backdrop-blur-sm">
+            <div class="flex items-center gap-3">
+                <div class="relative">
+                    <div class="h-10 w-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center font-bold text-white shadow-lg ring-2 ring-blue-500/30">
+                        {{ rol[0]|upper }}
+                    </div>
+                    <div class="absolute bottom-0 right-0 h-3 w-3 bg-green-500 rounded-full border-2 border-slate-900"></div>
+                </div>
+                <div>
+                    <p class="text-sm font-bold text-white uppercase tracking-wide">{{ rol }}</p>
+                    <p class="text-[10px] text-blue-400 font-medium">Sesión Activa</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <main class="flex-1 overflow-y-auto relative bg-slate-100">
+        
+        <header class="bg-white px-8 py-5 shadow-sm flex justify-between items-center sticky top-0 z-20 border-b border-slate-200/60 backdrop-blur-md bg-white/90">
+            <div>
+                <h2 class="text-2xl font-bold text-slate-800 tracking-tight">Panel de Control</h2>
+                <p class="text-slate-500 text-xs font-medium mt-0.5">Bienvenido al sistema Metaverso ERP</p>
+            </div>
+            
+            <div class="flex items-center gap-4">
+                <div class="bg-slate-50 px-5 py-2.5 rounded-xl border border-slate-200 shadow-sm flex items-center gap-3 group hover:border-blue-300 transition-colors">
+                    <div class="bg-blue-100 text-blue-600 h-8 w-8 rounded-lg flex items-center justify-center text-sm group-hover:scale-110 transition-transform">
+                        <i class="far fa-clock"></i>
+                    </div>
+                    <span class="font-bold text-slate-700 font-mono text-lg tracking-widest" id="reloj">--:--:--</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="p-8 max-w-7xl mx-auto space-y-8 pb-20">
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <a href="/clientes" class="bg-white p-6 rounded-2xl shadow-md border-l-8 border-blue-600 hover:-translate-y-1 hover:shadow-xl transition-all group relative overflow-hidden">
+                    <div class="flex justify-between items-start relative z-10">
+                        <div>
+                            <h2 class="font-bold text-slate-700 text-lg group-hover:text-blue-600 transition">Clientes</h2>
+                            <p class="text-xs text-slate-400 font-medium uppercase mt-1">Base de Datos</p>
+                        </div>
+                        <div class="bg-blue-50 text-blue-600 p-3 rounded-xl text-2xl group-hover:scale-110 transition-transform"><i class="fas fa-users"></i></div>
+                    </div>
+                    <div class="mt-4 relative z-10">
+                        <span class="text-4xl font-extrabold text-slate-900">{{ total_clientes }}</span>
+                        <span class="text-sm text-slate-400 font-medium ml-1">Registrados</span>
+                    </div>
+                    <i class="fas fa-users absolute -bottom-4 -right-4 text-9xl text-slate-50 opacity-50 group-hover:text-blue-50 transition-colors transform rotate-12"></i>
+                </a>
+
+                <a href="/proveedores" class="bg-white p-6 rounded-2xl shadow-md border-l-8 border-purple-600 hover:-translate-y-1 hover:shadow-xl transition-all group relative overflow-hidden">
+                    <div class="flex justify-between items-start relative z-10">
+                        <div>
+                            <h2 class="font-bold text-slate-700 text-lg group-hover:text-purple-600 transition">Proveedores</h2>
+                            <p class="text-xs text-slate-400 font-medium uppercase mt-1">Aliados</p>
+                        </div>
+                        <div class="bg-purple-50 text-purple-600 p-3 rounded-xl text-2xl group-hover:scale-110 transition-transform"><i class="fas fa-truck"></i></div>
+                    </div>
+                    <div class="mt-4 relative z-10">
+                        <span class="text-4xl font-extrabold text-slate-900">{{ total_proveedores }}</span>
+                        <span class="text-sm text-slate-400 font-medium ml-1">Empresas</span>
+                    </div>
+                    <i class="fas fa-truck absolute -bottom-4 -right-4 text-9xl text-slate-50 opacity-50 group-hover:text-purple-50 transition-colors transform rotate-12"></i>
+                </a>
+
+                <a href="/productos" class="bg-white p-6 rounded-2xl shadow-md border-l-8 border-orange-500 hover:-translate-y-1 hover:shadow-xl transition-all group relative overflow-hidden">
+                    <div class="flex justify-between items-start relative z-10">
+                        <div>
+                            <h2 class="font-bold text-slate-700 text-lg group-hover:text-orange-600 transition">Inventario</h2>
+                            <p class="text-xs text-slate-400 font-medium uppercase mt-1">Stock</p>
+                        </div>
+                        <div class="bg-orange-50 text-orange-600 p-3 rounded-xl text-2xl group-hover:scale-110 transition-transform"><i class="fas fa-boxes"></i></div>
+                    </div>
+                    <div class="mt-4 relative z-10">
+                        <span class="text-4xl font-extrabold text-slate-900">{{ total_productos }}</span>
+                        <span class="text-sm text-slate-400 font-medium ml-1">Items</span>
+                    </div>
+                    <i class="fas fa-boxes absolute -bottom-4 -right-4 text-9xl text-slate-50 opacity-50 group-hover:text-orange-50 transition-colors transform rotate-12"></i>
+                </a>
+
+                <a href="/cotizaciones" class="bg-white p-6 rounded-2xl shadow-md border-l-8 border-pink-500 hover:-translate-y-1 hover:shadow-xl transition-all group relative overflow-hidden">
+                    <div class="flex justify-between items-start relative z-10">
+                        <div>
+                            <h2 class="font-bold text-slate-700 text-lg group-hover:text-pink-600 transition">Cotizaciones</h2>
+                            <p class="text-xs text-slate-400 font-medium uppercase mt-1">Ventas</p>
+                        </div>
+                        <div class="bg-pink-50 text-pink-600 p-3 rounded-xl text-2xl group-hover:scale-110 transition-transform"><i class="fas fa-file-invoice-dollar"></i></div>
+                    </div>
+                    <div class="mt-4 relative z-10">
+                        <span class="text-4xl font-extrabold text-slate-900">{{ total_cotizaciones }}</span>
+                        <span class="text-sm text-slate-400 font-medium ml-1">Generadas</span>
+                    </div>
+                    <i class="fas fa-file-invoice-dollar absolute -bottom-4 -right-4 text-9xl text-slate-50 opacity-50 group-hover:text-pink-50 transition-colors transform rotate-12"></i>
+                </a>
+
+                <a href="/caracterizacion" class="bg-white p-6 rounded-2xl shadow-md border-l-8 border-teal-500 hover:-translate-y-1 hover:shadow-xl transition-all group relative overflow-hidden">
+                    <div class="flex justify-between items-start relative z-10">
+                        <div>
+                            <h2 class="font-bold text-slate-700 text-lg group-hover:text-teal-600 transition">Ingeniería</h2>
+                            <p class="text-xs text-slate-400 font-medium uppercase mt-1">Proyectos</p>
+                        </div>
+                        <div class="bg-teal-50 text-teal-600 p-3 rounded-xl text-2xl group-hover:scale-110 transition-transform"><i class="fas fa-hard-hat"></i></div>
+                    </div>
+                    <div class="mt-4 relative z-10">
+                        <span class="text-4xl font-extrabold text-slate-900">{{ total_levantamientos }}</span>
+                        <span class="text-sm text-slate-400 font-medium ml-1">Fichas</span>
+                    </div>
+                    <i class="fas fa-hard-hat absolute -bottom-4 -right-4 text-9xl text-slate-50 opacity-50 group-hover:text-teal-50 transition-colors transform rotate-12"></i>
+                </a>
+
+                {% if rol == 'admin' %}
+                <a href="/informes" class="bg-white p-6 rounded-2xl shadow-md border-l-8 border-green-500 hover:-translate-y-1 hover:shadow-xl transition-all group relative overflow-hidden">
+                    <div class="flex justify-between items-center relative z-10 h-full">
+                        <div class="flex items-center gap-5">
+                            <div class="bg-green-100 p-4 rounded-full text-green-600 group-hover:bg-green-600 group-hover:text-white transition-colors duration-300">
+                                <i class="fas fa-chart-line text-2xl"></i>
+                            </div>
+                            <div>
+                                <h2 class="font-bold text-xl text-slate-700 group-hover:text-green-600 transition">Informes BI</h2>
+                                <p class="text-xs text-slate-400 font-medium mt-1">Inteligencia de Negocios</p>
+                                <div class="mt-2 text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded inline-block border border-green-100">
+                                    VER REPORTE FINANCIERO
+                                </div>
+                            </div>
+                        </div>
+                        <i class="fas fa-chevron-right text-slate-300 group-hover:text-green-500 transition-colors"></i>
+                    </div>
+                    <i class="fas fa-chart-area absolute -bottom-4 -right-4 text-9xl text-slate-50 opacity-50 group-hover:text-green-50 transition-colors transform rotate-12"></i>
+                </a>
+                {% endif %}
+            </div>
+
+            <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="font-bold text-slate-700 text-lg flex items-center gap-2">
+                        <i class="fas fa-chart-bar text-blue-500"></i> Distribución de Clientes por Sector
+                    </h3>
+                    <div class="text-xs text-slate-400 font-medium bg-slate-100 px-3 py-1 rounded-full">
+                        Datos en tiempo real
+                    </div>
+                </div>
+                
+                <div class="h-80 w-full relative">
+                    <canvas id="miGrafica"></canvas>
+                </div>
+            </div>
+            
+        </div>
+    </main>
+
+    <script>
+        // 1. RELOJ DIGITAL
+        function actualizarReloj() {
+            const ahora = new Date();
+            document.getElementById('reloj').innerText = ahora.toLocaleTimeString();
+        }
+        setInterval(actualizarReloj, 1000);
+        actualizarReloj(); // Ejecutar inmediatamente
+
+        // 2. GRÁFICA CHART.JS
+        // Los datos se inyectan desde Python usando Jinja2
+        const ctx = document.getElementById('miGrafica').getContext('2d');
+        
+        // Configuramos los datos recibidos
+        const dataPrivada = {{ datos_grafica.Privada }};
+        const dataGobierno = {{ datos_grafica.Gobierno }};
+        const dataPH = {{ datos_grafica.PH }};
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Empresa Privada', 'Sector Gobierno', 'Propiedad Horizontal'],
+                datasets: [{
+                    label: 'Cantidad de Clientes',
+                    data: [dataPrivada, dataGobierno, dataPH],
+                    backgroundColor: [
+                        'rgba(59, 130, 246, 0.8)',  // Azul
+                        'rgba(147, 51, 234, 0.8)',  // Morado
+                        'rgba(16, 185, 129, 0.8)'   // Verde
+                    ],
+                    borderColor: [
+                        'rgba(59, 130, 246, 1)',
+                        'rgba(147, 51, 234, 1)',
+                        'rgba(16, 185, 129, 1)'
+                    ],
+                    borderWidth: 2,
+                    borderRadius: 8,
+                    barThickness: 60,
+                    hoverBackgroundColor: [
+                        'rgba(59, 130, 246, 1)',
+                        'rgba(147, 51, 234, 1)',
+                        'rgba(16, 185, 129, 1)'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: '#1e293b',
+                        padding: 12,
+                        titleFont: { size: 14, weight: 'bold' },
+                        bodyFont: { size: 13 },
+                        cornerRadius: 8,
+                        displayColors: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: '#f1f5f9',
+                            borderDash: [5, 5]
+                        },
+                        ticks: {
+                            stepSize: 1,
+                            font: { weight: 'bold', family: "'Inter', sans-serif" },
+                            color: '#64748b'
+                        },
+                        border: { display: false }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: {
+                            font: { weight: 'bold', family: "'Inter', sans-serif" },
+                            color: '#64748b'
+                        },
+                        border: { display: false }
+                    }
+                },
+                animation: {
+                    duration: 1500,
+                    easing: 'easeOutQuart'
+                }
+            }
+        });
+    </script>
+
+    <div id="toast-success" style="
+    display: none; /* Oculto por defecto */
+    position: fixed; 
+    z-index: 9999; 
+    top: 20px; 
+    right: 20px; 
+    background-color: #10b981; /* Verde éxito */
+    color: white; 
+    padding: 16px 24px; 
+    border-radius: 12px; 
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1); 
+    align-items: center; 
+    gap: 12px;
+    animation: slideIn 0.5s ease-out forwards;
+">
+    <div style="background: rgba(255,255,255,0.2); padding: 5px; border-radius: 50%; display: flex;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+    </div>
+    
+    <div>
+        <h4 style="margin: 0; font-weight: 800; font-size: 16px;">¡Correo Enviado!</h4>
+        <p style="margin: 0; font-size: 13px; opacity: 0.9;">El cliente ha recibido la cotización.</p>
+    </div>
+</div>
+
+<style>
+    @keyframes slideIn {
+        from { transform: translateY(-100%); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes slideOut {
+        from { transform: translateY(0); opacity: 1; }
+        to { transform: translateY(-100%); opacity: 0; }
+    }
+</style>
+         
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // 1. Preguntamos a la URL si trae el mensaje de éxito
+        const params = new URLSearchParams(window.location.search);
+        
+        if (params.get('mensaje') === 'enviado') {
+            const toast = document.getElementById("toast-success");
+            
+            // 2. Mostramos la notificación
+            toast.style.display = "flex";
+            
+            // 3. Esperamos 4 segundos y la ocultamos
+            setTimeout(() => {
+                toast.style.animation = "slideOut 0.5s ease-in forwards";
+                setTimeout(() => { toast.style.display = "none"; }, 500);
+            }, 4000);
+
+            // 4. Limpiamos la URL para que no salga al recargar la página
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+    });
+</script>
+</body>
+</html>
